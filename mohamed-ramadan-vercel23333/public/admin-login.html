@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم - محمد رمضان</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: linear-gradient(135deg, #0a0a1a 0%, #0044cc 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            direction: rtl;
+        }
+        .container {
+            background: white;
+            padding: 3rem;
+            border-radius: 25px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+            text-align: center;
+            max-width: 450px;
+            width: 90%;
+        }
+        .logo {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 1.5rem;
+        }
+        h1 { color: #1a1a2e; margin-bottom: 0.5rem; font-size: 1.8rem; }
+        p { color: #666; margin-bottom: 2rem; }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: none;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #0044cc, #0066ff);
+            color: white;
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,68,204,0.4);
+        }
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+        }
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+        .credentials {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        .credentials strong { color: #0044cc; }
+        code {
+            background: #e8e8e8;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="images/logo.png" alt="Logo" class="logo">
+        <h1>لوحة التحكم</h1>
+        <p>إدارة محتوى موقع محمد رمضان</p>
+
+        <a href="admin/index.html" class="btn btn-primary">
+            🔐 دخول لوحة التحكم
+        </a>
+
+        <a href="index.html" class="btn btn-secondary">
+            🌐 عرض الموقع
+        </a>
+
+        <div class="credentials">
+            <p><strong>بيانات الدخول:</strong></p>
+            <p>اسم المستخدم: <code>admin</code></p>
+            <p>كلمة المرور: <code>123456</code></p>
+        </div>
+    </div>
+</body>
+</html>

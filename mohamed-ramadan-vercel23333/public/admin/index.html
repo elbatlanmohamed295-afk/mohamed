@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم | محمد رمضان</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="loginPage" class="login-page">
+        <div class="login-box">
+            <img src="../images/logo.png" alt="Logo" class="logo">
+            <h1>لوحة التحكم</h1>
+            <p>تسجيل الدخول للوصول إلى لوحة التحكم</p>
+
+            <form class="login-form" id="loginForm" onsubmit="return handleLogin(event)">
+                <div class="form-group">
+                    <label for="username">اسم المستخدم</label>
+                    <input type="text" id="username" name="username" required placeholder="أدخل اسم المستخدم">
+                </div>
+                <div class="form-group">
+                    <label for="password">كلمة المرور</label>
+                    <input type="password" id="password" name="password" required placeholder="أدخل كلمة المرور">
+                </div>
+                <button type="submit" class="btn-login">
+                    <i class="fa-solid fa-sign-in-alt"></i>
+                    تسجيل الدخول
+                </button>
+                <div class="error-message" id="loginError">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    اسم المستخدم أو كلمة المرور غير صحيحة
+                </div>
+            </form>
+
+            <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #eee; font-size: 0.85rem; color: #666;">
+                <p><strong>بيانات الدخول الافتراضية:</strong></p>
+                <p>اسم المستخدم: <code style="background: #f0f0f0; padding: 2px 6px; border-radius: 4px;">admin</code></p>
+                <p>كلمة المرور: <code style="background: #f0f0f0; padding: 2px 6px; border-radius: 4px;">123456</code></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="adminDashboard" class="admin-wrapper" style="display: none;">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <img src="../images/logo.png" alt="Logo">
+                <h2>محمد رمضان</h2>
+                <p>لوحة التحكم</p>
+            </div>
+
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="#" class="active" data-section="dashboard" onclick="showSection('dashboard')"><i class="fa-solid fa-gauge-high"></i><span>الرئيسية</span></a></li>
+                    <li><a href="#" data-section="portfolio" onclick="showSection('portfolio')"><i class="fa-solid fa-briefcase"></i><span>إدارة الأعمال</span></a></li>
+                    <li><a href="#" data-section="files" onclick="showSection('files')"><i class="fa-solid fa-file-upload"></i><span>رفع الملفات</span></a></li>
+                    <li><a href="#" data-section="images" onclick="showSection('images')"><i class="fa-solid fa-images"></i><span>إدارة الصور</span></a></li>
+                    <li><a href="#" data-section="links" onclick="showSection('links')"><i class="fa-solid fa-link"></i><span>إدارة الروابط</span></a></li>
+                    <li><a href="#" data-section="settings" onclick="showSection('settings')"><i class="fa-solid fa-gear"></i><span>الإعدادات</span></a></li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="btn-logout" onclick="handleLogout()">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>تسجيل الخروج</span>
+                </button>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="top-bar">
+                <button class="sidebar-toggle" id="sidebarToggle" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
+                <h1 id="pageTitle">الرئيسية</h1>
+                <div class="top-bar-actions">
+                    <button class="btn-icon" onclick="window.open('../index.html', '_blank')" title="عرض الموقع"><i class="fa-solid fa-eye"></i></button>
+                    <button class="btn-icon" onclick="location.reload()" title="تحديث"><i class="fa-solid fa-rotate"></i></button>
+                </div>
+            </div>
+
+            <!-- Dashboard Section -->
+            <div id="section-dashboard" class="admin-section">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon blue"><i class="fa-solid fa-briefcase"></i></div>
+                        <div class="stat-info"><h3 id="statProjects">0</h3><p>عدد الأعمال</p></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green"><i class="fa-solid fa-images"></i></div>
+                        <div class="stat-info"><h3 id="statImages">0</h3><p>عدد الصور</p></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon orange"><i class="fa-solid fa-link"></i></div>
+                        <div class="stat-info"><h3 id="statLinks">0</h3><p>عدد الروابط</p></div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon red"><i class="fa-solid fa-file"></i></div>
+                        <div class="stat-info"><h3 id="statFiles">0</h3><p>عدد الملفات</p></div>
+                    </div>
+                </div>
+
+                <div class="content-card">
+                    <div class="card-header">
+                        <h2><i class="fa-solid fa-info-circle"></i> نبذة سريعة</h2>
+                    </div>
+                    <div class="card-body">
+                        <p>مرحباً بك في لوحة التحكم! من هنا يمكنك:</p>
+                        <ul style="margin-top: 1rem; padding-right: 1.5rem; line-height: 2;">
+                            <li>إضافة وتعديل وحذف أعمالك في معرض الأعمال</li>
+                            <li>رفع الصور والملفات وإدارتها</li>
+                            <li>إضافة روابط مشاريعك</li>
+                            <li>تخصيص إعدادات الموقع</li>
+                        </ul>
+                        <div class="alert alert-warning" style="margin-top: 1.5rem;">
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            <strong>ملاحظة:</strong> البيانات تُحفظ في متصفحك (localStorage). تأكد من عدم مسح بيانات التصفح.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Portfolio Section -->
+            <div id="section-portfolio" class="admin-section section-hidden">
+                <div class="content-card">
+                    <div class="card-header">
+                        <h2><i class="fa-solid fa-briefcase"></i> إدارة الأعمال</h2>
+                        <button class="btn btn-primary" onclick="openPortfolioModal()">
+                            <i class="fa-solid fa-plus"></i> إضافة عمل جديد
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <div id="portfolioTableContainer">
+                            <table class="data-table">
+                                <thead>
+                                    <tr><th>#</th><th>الصورة</th><th>العنوان (عربي)</th><th>العنوان (إنجليزي)</th><th>التصنيف</th><th>الإجراءات</th></tr>
+                                </thead>
+                                <tbody id="portfolioTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Files Section -->
+            <div id="section-files" class="admin-section section-hidden">
+                <div class="content-card">
+                    <div class="card-header"><h2><i class="fa-solid fa-file-upload"></i> رفع الملفات</h2></div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label>اختر الملفات لرفعها</label>
+                            <div class="file-upload" id="fileUploadArea">
+                                <input type="file" id="fileInput" multiple onchange="handleFileUpload(this)">
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                <p>اسحب الملفات هنا أو انقر للاختيار</p>
+                                <p style="font-size: 0.85rem; margin-top: 0.5rem;">PDF, DOC, ZIP, TXT - الحد الأقصى 10MB</p>
+                            </div>
+                        </div>
+                        <div id="uploadedFilesList" style="margin-top: 2rem;">
+                            <h3 style="margin-bottom: 1rem;">الملفات المرفوعة</h3>
+                            <div id="filesList"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Images Section -->
+            <div id="section-images" class="admin-section section-hidden">
+                <div class="content-card">
+                    <div class="card-header"><h2><i class="fa-solid fa-images"></i> إدارة الصور</h2></div>
+                    <div class="card-body">
+                        <div class="tabs">
+                            <button class="tab-btn active" onclick="switchTab('upload-image')">رفع صورة</button>
+                            <button class="tab-btn" onclick="switchTab('gallery')">معرض الصور</button>
+                        </div>
+
+                        <div id="tab-upload-image" class="tab-content active">
+                            <div class="form-group">
+                                <label>رفع صورة جديدة</label>
+                                <div class="file-upload" id="imageUploadArea">
+                                    <input type="file" id="imageInput" accept="image/*" onchange="handleImageUpload(this)">
+                                    <i class="fa-solid fa-image"></i>
+                                    <p>اسحب الصورة هنا أو انقر للاختيار</p>
+                                    <p style="font-size: 0.85rem; margin-top: 0.5rem;">JPG, PNG, GIF, WEBP - الحد الأقصى 5MB</p>
+                                </div>
+                                <img id="imagePreview" class="image-preview" alt="Preview">
+                            </div>
+                            <div class="form-group">
+                                <label for="imageName">اسم الصورة</label>
+                                <input type="text" id="imageName" placeholder="مثال: صورة المشروع 1">
+                            </div>
+                            <button class="btn btn-primary" onclick="saveImage()">
+                                <i class="fa-solid fa-save"></i> حفظ الصورة
+                            </button>
+                        </div>
+
+                        <div id="tab-gallery" class="tab-content">
+                            <div id="galleryGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Links Section -->
+            <div id="section-links" class="admin-section section-hidden">
+                <div class="content-card">
+                    <div class="card-header">
+                        <h2><i class="fa-solid fa-link"></i> إدارة الروابط</h2>
+                        <button class="btn btn-primary" onclick="openLinkModal()">
+                            <i class="fa-solid fa-plus"></i> إضافة رابط
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        <table class="data-table">
+                            <thead><tr><th>#</th><th>العنوان</th><th>الرابط</th><th>الإجراءات</th></tr></thead>
+                            <tbody id="linksTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Section -->
+            <div id="section-settings" class="admin-section section-hidden">
+                <div class="content-card">
+                    <div class="card-header"><h2><i class="fa-solid fa-gear"></i> إعدادات الموقع</h2></div>
+                    <div class="card-body">
+                        <form id="settingsForm" onsubmit="return saveSettings(event)">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="siteTitle">عنوان الموقع</label>
+                                    <input type="text" id="siteTitle" value="محمد رمضان | مطور ومصمم مواقع">
+                                </div>
+                                <div class="form-group">
+                                    <label for="siteEmail">البريد الإلكتروني</label>
+                                    <input type="email" id="siteEmail" value="elbatlanmohamed295@gmail.com">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="sitePhone">رقم الهاتف / واتساب</label>
+                                    <input type="text" id="sitePhone" value="+20 122 405 6162">
+                                </div>
+                                <div class="form-group">
+                                    <label for="siteLocation">الموقع</label>
+                                    <input type="text" id="siteLocation" value="مصر">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="siteDescription">وصف الموقع</label>
+                                <textarea id="siteDescription">أنا محمد رمضان، مطور ومصمم مواقع بخبرة في مجال تطوير الويب.</textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="facebookLink">رابط Facebook</label>
+                                <input type="url" id="facebookLink" value="https://www.facebook.com/profile.php?id=100055721036528" placeholder="https://facebook.com/...">
+                            </div>
+                            <div class="form-group">
+                                <label for="instagramLink">رابط Instagram</label>
+                                <input type="url" id="instagramLink" value="https://www.instagram.com/m_o_ramadan?igsh=MTQwMHNwazN6MjJtNA==" placeholder="https://instagram.com/...">
+                            </div>
+                            <div class="form-group">
+                                <label for="linkedinLink">رابط LinkedIn</label>
+                                <input type="url" id="linkedinLink" value="https://www.linkedin.com/in/mohamed-ramadan-0a8958307?utm_source=share_via&utm_content=profile&utm_medium=member_android" placeholder="https://linkedin.com/in/...">
+                            </div>
+                            <div class="form-group">
+                                <label for="whatsappLink">رابط WhatsApp</label>
+                                <input type="url" id="whatsappLink" value="https://wa.me/201224056162" placeholder="https://wa.me/...">
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa-solid fa-save"></i> حفظ الإعدادات
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Portfolio Modal -->
+    <div class="modal-overlay" id="portfolioModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="portfolioModalTitle">إضافة عمل جديد</h2>
+                <button class="modal-close" onclick="closeModal('portfolioModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="portfolioForm" onsubmit="return savePortfolioItem(event)">
+                    <input type="hidden" id="portfolioId">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="portfolioTitleAr">العنوان (عربي) *</label>
+                            <input type="text" id="portfolioTitleAr" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="portfolioTitleEn">العنوان (إنجليزي) *</label>
+                            <input type="text" id="portfolioTitleEn" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="portfolioCategory">التصنيف *</label>
+                        <select id="portfolioCategory" required>
+                            <option value="corporate">موقع شركة</option>
+                            <option value="ecommerce">متجر إلكتروني</option>
+                            <option value="personal">موقع شخصي</option>
+                            <option value="landing">صفحة هبوط</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="portfolioImage">رابط الصورة *</label>
+                        <input type="url" id="portfolioImage" required placeholder="https://...">
+                        <p style="font-size: 0.85rem; color: #666; margin-top: 0.5rem;">يمكنك استخدام رابط من Unsplash أو رفع صورة في قسم الصور</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="portfolioLink">رابط المشروع (اختياري)</label>
+                        <input type="url" id="portfolioLink" placeholder="https://...">
+                    </div>
+                    <div class="modal-footer" style="padding: 0; border: none;">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('portfolioModal')">إلغاء</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa-solid fa-save"></i> حفظ
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Link Modal -->
+    <div class="modal-overlay" id="linkModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="linkModalTitle">إضافة رابط</h2>
+                <button class="modal-close" onclick="closeModal('linkModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="linkForm" onsubmit="return saveLink(event)">
+                    <input type="hidden" id="linkId">
+                    <div class="form-group">
+                        <label for="linkTitle">عنوان الرابط *</label>
+                        <input type="text" id="linkTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="linkUrl">الرابط *</label>
+                        <input type="url" id="linkUrl" required placeholder="https://...">
+                    </div>
+                    <div class="form-group">
+                        <label for="linkIcon">الأيقونة (Font Awesome)</label>
+                        <input type="text" id="linkIcon" placeholder="fa-solid fa-globe" value="fa-solid fa-globe">
+                        <p style="font-size: 0.85rem; color: #666; margin-top: 0.5rem;">مثال: fa-solid fa-globe, fa-brands fa-github</p>
+                    </div>
+                    <div class="modal-footer" style="padding: 0; border: none;">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('linkModal')">إلغاء</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa-solid fa-save"></i> حفظ
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>
